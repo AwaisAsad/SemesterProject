@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:native_notify/native_notify.dart';
 import 'package:provider/provider.dart';
 import 'screens/product_overview_screen.dart';
 import 'screens/products_detail_screen.dart';
 import 'providers/product_prov.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  NativeNotify.initialize(240, 'MemfiZrR5boyiw0LaAg7Jg',);
   runApp( MyApp());
 }
 
