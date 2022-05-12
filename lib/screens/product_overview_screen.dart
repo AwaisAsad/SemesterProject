@@ -17,6 +17,7 @@ class ProductOverviewScreen extends StatefulWidget {
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
   var _showOnlyFavourites = false;
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +60,32 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
         ],
       ),
       body: ProductsGrid(_showOnlyFavourites),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            label: "Home",
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: "Settings",
+            icon: Icon(Icons.settings),
+          ),
+          BottomNavigationBarItem(
+            label: "Login",
+            icon: Icon(Icons.login_outlined),
+          ),
+          // BottomNavigationBarItem(
+          //   label: "My Account",
+          //   icon: Icon(Icons.account_circle_outlined),
+          // ),
+        ],
+        currentIndex: currentIndex,
+        onTap: (int index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+      ),
     );
   }
 }

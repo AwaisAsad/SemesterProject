@@ -28,13 +28,13 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  image: "images/11.png"
+  image: "images/Logo.png"
   color: "42a5f5"
 
 
 
 flutter_icons:
-  image_path: "images/go-green.png"
+  image_path: "images/Logo.png"
   android: true
   ios: true
 

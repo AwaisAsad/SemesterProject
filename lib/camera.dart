@@ -110,8 +110,8 @@ class _TensorflowState extends State<Tensorflow> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _loading ? Container(
-              height: 300,
-              width: 300,
+              height: 230,
+              width: 230,
             ):
             Container(
               margin: EdgeInsets.all(20),
@@ -122,7 +122,7 @@ class _TensorflowState extends State<Tensorflow> {
                 children: <Widget>[
                   _image == null ? Container() : Image.file(_image!),
                   SizedBox(
-                    height: 20,
+                    height: 16,
 
                   ),
                   _image == null ? Container() : _outputs != null ?
@@ -154,7 +154,8 @@ class _TensorflowState extends State<Tensorflow> {
                     ),
                   ),
                   SizedBox(
-                    height: 30,
+                   // height: MediaQuery.of(context).size.height * 0.01,
+                    height: 1,
                   ),
                   GestureDetector(
                     onTap: getImage, //no parenthesis
