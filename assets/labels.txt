@@ -1,5 +1,4 @@
- Bacterial Blight
- Curl Virus
- Fussarium Wilt
- Healthy
- Unknown Image
+Bacterial Blight
+Curl Virus
+Fussarium Wilt
+Healthy

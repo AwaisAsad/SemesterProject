@@ -1,11 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'index.dart';
-
-
 import 'package:tflite/tflite.dart';
 
 class Tensorflow extends StatefulWidget {
@@ -57,7 +53,7 @@ class _TensorflowState extends State<Tensorflow> {
     super.dispose();
   }
   Future getImage() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return null;
     setState(() {
       _loading = true;
@@ -66,7 +62,8 @@ class _TensorflowState extends State<Tensorflow> {
     classifyImage(_image!);
   }
   Future getcameraImage() async {
-    var image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image == null) return null;
     setState(() {
       _loading = true;
@@ -106,100 +103,102 @@ class _TensorflowState extends State<Tensorflow> {
       // ),
       body: Container(
         color: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            _loading ? Container(
-              height: 230,
-              width: 230,
-            ):
-            Container(
-              margin: EdgeInsets.all(20),
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  _image == null ? Container() : Image.file(_image!),
-                  SizedBox(
-                    height: 16,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _loading ? Container(
+                height: 130,
+                width: 230,
+              ):
+              Container(
+                margin: EdgeInsets.all(20),
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    _image == null ? Container() : Image.file(_image!),
+                    SizedBox(
+                      height: 16,
 
-                  ),
-                  _image == null ? Container() : _outputs != null ?
-                  Text(_outputs![0]["label"],style: TextStyle(color: Colors.black,fontSize: 20),
-                  ) : Container(child: Text(""))
-                ],
+                    ),
+                    _image == null ? Container() : _outputs != null ?
+                    Text(_outputs![0]["label"],style: TextStyle(color: Colors.black,fontSize: 20),
+                    ) : Container(child: Text(""))
+                  ],
+                ),
               ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.01,
-            ),
-            Container(
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: getcameraImage, //no parenthesis
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 200,
-                      alignment: Alignment.center,
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 24, vertical: 17),
-                      decoration: BoxDecoration(
-                          color: Colors.blueGrey[600],
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(
-                        'Take A Photo',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
+              ),
+              Container(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: getcameraImage, //no parenthesis
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 200,
+                        alignment: Alignment.center,
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 24, vertical: 17),
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey[600],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Text(
+                          'Take A Photo',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                   // height: MediaQuery.of(context).size.height * 0.01,
-                    height: 1,
-                  ),
-                  GestureDetector(
-                    onTap: getImage, //no parenthesis
-                    child: Container(
-                      width: MediaQuery.of(context).size.width - 200,
-                      alignment: Alignment.center,
-                      padding:
-                      EdgeInsets.symmetric(horizontal: 24, vertical: 17),
-                      decoration: BoxDecoration(
-                          color: Colors.blueGrey[600],
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(
-                        'Pick From Gallery',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                    SizedBox(
+                     // height: MediaQuery.of(context).size.height * 0.01,
+                      height: 1,
+                    ),
+                    GestureDetector(
+                      onTap: getImage, //no parenthesis
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 200,
+                        alignment: Alignment.center,
+                        padding:
+                        EdgeInsets.symmetric(horizontal: 24, vertical: 17),
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey[600],
+                            borderRadius: BorderRadius.circular(15)),
+                        child: Text(
+                          'Pick From Gallery',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            // FloatingActionButton(
-            //   tooltip: 'Pick Image',
-            //   onPressed: getImage,
-            //   child: Icon(Icons.add_photo_alternate_sharp,
-            //     size: 20,
-            //     color: Colors.white,
-            //   ),
-            //   backgroundColor: Colors.amber,
-            // ),
-            // Divider(
-            //   height: 25,
-            //   thickness: 1,
-            // ),
-            // FloatingActionButton(
-            //   tooltip: 'Click Image',
-            //   onPressed: getcameraImage,
-            //   child: Icon(Icons.camera,
-            //     size: 20,
-            //     color: Colors.white,
-            //   ),
-            //
-            //   backgroundColor: Colors.amber,
-            // ),
-          ],
+              // FloatingActionButton(
+              //   tooltip: 'Pick Image',
+              //   onPressed: getImage,
+              //   child: Icon(Icons.add_photo_alternate_sharp,
+              //     size: 20,
+              //     color: Colors.white,
+              //   ),
+              //   backgroundColor: Colors.amber,
+              // ),
+              // Divider(
+              //   height: 25,
+              //   thickness: 1,
+              // ),
+              // FloatingActionButton(
+              //   tooltip: 'Click Image',
+              //   onPressed: getcameraImage,
+              //   child: Icon(Icons.camera,
+              //     size: 20,
+              //     color: Colors.white,
+              //   ),
+              //
+              //   backgroundColor: Colors.amber,
+              // ),
+            ],
+          ),
         ),
       ),
     );

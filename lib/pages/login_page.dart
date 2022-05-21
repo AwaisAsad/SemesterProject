@@ -1,40 +1,42 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uiapp1/screens/product_overview_screen.dart';
 
-import 'email.dart';
-import 'index.dart';
+import 'forgot_pw_page.dart';
 
-class signUp extends StatefulWidget {
+class LoginPage extends StatefulWidget {
+  final VoidCallback showRegisterPage;
 
+  const LoginPage({Key? key, required this.showRegisterPage}) : super(key: key);
 
   @override
-  _signUpState createState() => _signUpState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _signUpState extends State<signUp> {
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  Future signIn() async {
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
-          backgroundColor: Colors.lightGreen,
-
-          title: Text('SignUp',style: TextStyle(color: Colors.white60),),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.close_rounded,
-                color: Colors.white60,
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context,
-                      MaterialPageRoute(builder: (context) => InputPage()));
-                });
-              },
-            )
-          ],
+          title: Text('FireBase App'),
+          backgroundColor: Colors.deepPurple,
         ),
         body: SafeArea(
           child: Center(
@@ -51,15 +53,15 @@ class _signUpState extends State<signUp> {
                   ),
                   //Hello Again
                   const Text(
-                    "Hello There!",
+                    "Hello Again!",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   const Text(
-                    "Register With your details!",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    "Wellcome back, you\'ve been missed!",
+                    style: TextStyle(fontWeight: FontWeight.w100, fontSize: 16),
                   ),
                   SizedBox(
                     height: 30.0,
@@ -76,7 +78,7 @@ class _signUpState extends State<signUp> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                          //controller: _emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Email',
@@ -100,7 +102,7 @@ class _signUpState extends State<signUp> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                          //controller: _passwordController,
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -114,52 +116,54 @@ class _signUpState extends State<signUp> {
                     height: 10,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 23.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        border: Border.all(color: Colors.white),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0),
-                        child: TextField(
-                         // controller: _confirmPasswordController,
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Confirm Password',
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ForgotPasswordPage(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            "Forgot Password",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.lightBlue),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //signin button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: GestureDetector(
+                      onTap: signIn,
+                      child: Container(
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: const Center(
+                          child: Text(
+                            "Sign In",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
                           ),
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 15,),
-                  //signin button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
-
-                  ),
-                  Container(
-                      height: 50,
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: RaisedButton(
-                        textColor: Colors.white,
-                        color: Colors.lightGreen,
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ProductOverviewScreen()));
-                          });
-                        },
-                      )),
                   SizedBox(
                     height: 25,
                   ),
@@ -168,21 +172,15 @@ class _signUpState extends State<signUp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'I am a Member?',
+                        'Not a member?',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      RaisedButton(
-                        onPressed: (){
-                          setState(() {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => email()));
-                          });
-                        },
-                       // onTap: widget.showLoginPage,
+                      GestureDetector(
+                        onTap: widget.showRegisterPage,
                         child: Text(
-                          'Login now',
+                          'Register now',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.lightBlue),
@@ -211,6 +209,10 @@ class _signUpState extends State<signUp> {
               ),
             ),
           ),
-        ));
+        )
+
+        //Register button?not a member
+
+        );
   }
 }

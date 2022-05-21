@@ -1,40 +1,54 @@
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:uiapp1/screens/product_overview_screen.dart';
 
-import 'email.dart';
-import 'index.dart';
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showLoginPage;
 
-class signUp extends StatefulWidget {
-
+  RegisterPage({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
-  _signUpState createState() => _signUpState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _signUpState extends State<signUp> {
+class _RegisterPageState extends State<RegisterPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  Future signUp() async {
+   if(passwordConfirmed()){
+     await FirebaseAuth.instance.createUserWithEmailAndPassword(
+       email: _emailController.text.trim(),
+       password: _passwordController.text.trim(),
+
+     );
+   }
+  }
+  bool passwordConfirmed(){
+    if(_passwordController.text.trim()==_confirmPasswordController.text.trim()){
+      return true;
+    }
+    else
+      {
+        return false;
+      }
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         appBar: AppBar(
-          backgroundColor: Colors.lightGreen,
-
-          title: Text('SignUp',style: TextStyle(color: Colors.white60),),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.close_rounded,
-                color: Colors.white60,
-              ),
-              onPressed: () {
-                setState(() {
-                  Navigator.pop(context,
-                      MaterialPageRoute(builder: (context) => InputPage()));
-                });
-              },
-            )
-          ],
+          title: Text('FireBase App'),
+          backgroundColor: Colors.deepPurple,
         ),
         body: SafeArea(
           child: Center(
@@ -59,7 +73,7 @@ class _signUpState extends State<signUp> {
                   ),
                   const Text(
                     "Register With your details!",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(fontWeight: FontWeight.w100, fontSize: 16),
                   ),
                   SizedBox(
                     height: 30.0,
@@ -76,7 +90,7 @@ class _signUpState extends State<signUp> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                          //controller: _emailController,
+                          controller: _emailController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'Email',
@@ -100,7 +114,7 @@ class _signUpState extends State<signUp> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                          //controller: _passwordController,
+                          controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -124,7 +138,7 @@ class _signUpState extends State<signUp> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20.0),
                         child: TextField(
-                         // controller: _confirmPasswordController,
+                          controller: _confirmPasswordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
@@ -138,28 +152,25 @@ class _signUpState extends State<signUp> {
                   //signin button
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
-
-                  ),
-                  Container(
-                      height: 50,
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: RaisedButton(
-                        textColor: Colors.white,
-                        color: Colors.lightGreen,
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
+                    child: GestureDetector(
+                      onTap: signUp,
+                      child: Container(
+                        padding: EdgeInsets.all(20.0),
+                        decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: const Center(
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18),
+                          ),
                         ),
-                        onPressed: () {
-                          setState(() {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => ProductOverviewScreen()));
-                          });
-                        },
-                      )),
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 25,
                   ),
@@ -173,14 +184,8 @@ class _signUpState extends State<signUp> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      RaisedButton(
-                        onPressed: (){
-                          setState(() {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => email()));
-                          });
-                        },
-                       // onTap: widget.showLoginPage,
+                      GestureDetector(
+                        onTap: widget.showLoginPage,
                         child: Text(
                           'Login now',
                           style: TextStyle(
@@ -211,6 +216,10 @@ class _signUpState extends State<signUp> {
               ),
             ),
           ),
-        ));
+        )
+
+      //Register button?not a member
+
+    );
   }
 }

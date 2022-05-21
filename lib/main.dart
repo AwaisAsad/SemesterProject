@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Lato',
         ),
         home: SplashScreen(
-            seconds: 2,
+            seconds: 3,
             navigateAfterSeconds: new ProductOverviewScreen(),
 
             title: new Text('Welcome TO PEST SCOUT', style: TextStyle(
