@@ -171,20 +171,22 @@ class _emailState extends State<email> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Not a member?',
+                          'Not a member?  ',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        FlatButton(
-                                    textColor: Colors.white,
-                                    color: Colors.lightGreen,
 
-                                    child: Text(
-                                      'Sign Up',
-                                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+
+
+                                     GestureDetector(
+                                       child: Text(
+                                        'Sign Up',
+
+                                        style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.blueAccent),
                                     ),
-                                    onPressed: () {
+
+                                    onTap: () {
                                       //signup screen
                                       setState(() {
                                         Navigator.push(context,

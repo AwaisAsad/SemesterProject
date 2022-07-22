@@ -28,11 +28,12 @@ class _TensorflowState extends State<Tensorflow> {
 
   loadModel() async {
     await Tflite.loadModel(
-      model: "assets/model.tflite",
+      model: "assets/testcotton.tflite",
       labels: "assets/labels.txt",
       numThreads: 1,
     );
   }
+
   classifyImage(File image) async {
     var output = await Tflite.runModelOnImage(
         path: image.path,
@@ -40,29 +41,30 @@ class _TensorflowState extends State<Tensorflow> {
         imageStd: 255.0,
         numResults: 2,
         threshold: 0.2,
-        asynch: true
-    );
+        asynch: true);
     setState(() {
       _loading = false;
       _outputs = output!;
     });
   }
+
   @override
   void dispose() {
     Tflite.close();
     super.dispose();
   }
+
   Future getImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image == null) return null;
     setState(() {
       _loading = true;
-      _image = File(image.path) ;
+      _image = File(image.path);
     });
     classifyImage(_image!);
   }
-  Future getcameraImage() async {
 
+  Future getcameraImage() async {
     XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image == null) return null;
     setState(() {
@@ -75,60 +77,64 @@ class _TensorflowState extends State<Tensorflow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-       backgroundColor: Colors.lightGreen,
+      appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        title: Text(
+          'Pest Scout',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.close_rounded,
+              color: Colors.white60,
+            ),
+            onPressed: () {
+              setState(() {
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => InputPage()));
+              });
+            },
+          ),
+        ],
+      ),
 
-         title: Text('Pest Scout',style: TextStyle(color: Colors.white60),),
-         actions: <Widget>[
-       IconButton(
-       icon: Icon(
-         Icons.close_rounded,
-         color: Colors.white60,
-       ),
-        onPressed: () {
-           setState(() {
-             Navigator.pop(context,
-                 MaterialPageRoute(builder: (context) => InputPage()));
-           });
-         },),],
-     ),
-      // appBar: AppBar(
-      //   centerTitle: true,
-      //   title: Text(
-      //     "Tensorflow Lite",
-      //     style: TextStyle(color: Colors.white, fontSize: 25),
-      //   ),
-      //   backgroundColor: Colors.amber,
-      //   elevation: 0,
-      // ),
       body: Container(
         color: Colors.white,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              _loading ? Container(
-                height: 130,
-                width: 230,
-              ):
-              Container(
-                margin: EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    _image == null ? Container() : Image.file(_image!),
-                    SizedBox(
-                      height: 16,
-
+              _loading
+                  ? Container(
+                      height: 130,
+                      width: 230,
+                    )
+                  : Container(
+                      margin: EdgeInsets.all(20),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          _image == null ? Container() : Image.file(_image!),
+                          SizedBox(
+                            height: 16,
+                          ),
+                          _image == null
+                              ? Container()
+                              : _outputs != null
+                                  ? Text(
+                                      _outputs![0]["label"],
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 20),
+                                    )
+                                  : Container(
+                                      child: Text(""),
+                                    ),
+                        ],
+                      ),
                     ),
-                    _image == null ? Container() : _outputs != null ?
-                    Text(_outputs![0]["label"],style: TextStyle(color: Colors.black,fontSize: 20),
-                    ) : Container(child: Text(""))
-                  ],
-                ),
-              ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.01,
               ),
@@ -141,19 +147,35 @@ class _TensorflowState extends State<Tensorflow> {
                         width: MediaQuery.of(context).size.width - 200,
                         alignment: Alignment.center,
                         padding:
-                        EdgeInsets.symmetric(horizontal: 24, vertical: 17),
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 17),
                         decoration: BoxDecoration(
-                            color: Colors.blueGrey[600],
+                            color: Colors.lightGreen[600],
                             borderRadius: BorderRadius.circular(15)),
-                        child: Text(
-                          'Take A Photo',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        child: Text.rich(
+                          TextSpan(
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: 'Take A Photo ',
+                              ),
+                              WidgetSpan(
+                                  //alignment: ui.PlaceholderAlignment.middle,
+                                  child: Icon(
+                                Icons.camera,
+                                color: Colors.white,
+                                size: 20,
+                              )),
+                            ],
+                          ),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w900),
                         ),
                       ),
                     ),
                     SizedBox(
-                     // height: MediaQuery.of(context).size.height * 0.01,
-                      height: 1,
+                      // height: MediaQuery.of(context).size.height * 0.01,
+                      height: 10,
                     ),
                     GestureDetector(
                       onTap: getImage, //no parenthesis
@@ -161,13 +183,29 @@ class _TensorflowState extends State<Tensorflow> {
                         width: MediaQuery.of(context).size.width - 200,
                         alignment: Alignment.center,
                         padding:
-                        EdgeInsets.symmetric(horizontal: 24, vertical: 17),
+                            EdgeInsets.symmetric(horizontal: 24, vertical: 17),
                         decoration: BoxDecoration(
-                            color: Colors.blueGrey[600],
+                            color: Colors.lightGreen[600],
                             borderRadius: BorderRadius.circular(15)),
-                        child: Text(
-                          'Pick From Gallery',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        child: Text.rich(
+                          TextSpan(
+                            children: <InlineSpan>[
+                              TextSpan(
+                                text: 'Pick From Gallery ',
+                              ),
+                              WidgetSpan(
+                                  //alignment: ui.PlaceholderAlignment.middle,
+                                  child: Icon(
+                                Icons.image,
+                                color: Colors.white,
+                                size: 20,
+                              )),
+                            ],
+                          ),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
@@ -204,7 +242,6 @@ class _TensorflowState extends State<Tensorflow> {
     );
   }
 }
-
 
 //import 'image_picker_channel.dart';
 

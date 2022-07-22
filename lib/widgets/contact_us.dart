@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../index.dart';
 
@@ -56,13 +57,13 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               Icon(
                 Icons.android_outlined,
-                size: 100,
+                size: 50,
               ),
               SizedBox(
                 height: 10,
               ),
               const Text(
-                "Hello There!",
+                "Welcome to the Support!",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
               ),
               SizedBox(
@@ -79,10 +80,61 @@ class MyCustomFormState extends State<MyCustomForm> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextField(
+                      //controller: _lastNameController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Enter Your Name',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextField(
                       // controller: _emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Email',
+                        hintText: ' Enter Your Email',
+                      ),
+
+
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextField(
+                      //controller: _ageController,
+                      keyboardType: TextInputType.number,
+                      //textAlign: TextAlign.center,
+                      inputFormatters: [LengthLimitingTextInputFormatter(11)],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: ' Enter Your Phone No',
                       ),
                     ),
                   ),

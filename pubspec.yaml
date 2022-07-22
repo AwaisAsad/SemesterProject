@@ -22,6 +22,8 @@ dependencies:
   firebase_auth: ^3.3.14
   font_awesome_flutter:
   native_notify: ^0.0.3
+  url_launcher: ^6.0.9
+  google_maps_flutter: ^2.1.6
 
 
 dev_dependencies:
@@ -51,6 +53,7 @@ flutter:
 
 
     - assets/labels.txt
+    - assets/testcotton.tflite
     #- assets/model_unquant.tflite
-    - assets/model.tflite
+    # - assets/model.tflite
     - images/

@@ -3,12 +3,22 @@ import 'package:provider/provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uiapp1/providers/product_prov.dart';
 
-class ProductDetailScreen extends StatelessWidget {
+import '../email.dart';
+import '../index.dart';
+import '../loginPage.dart';
+import '../pages/about_us.dart';
+import '../pages/browser_file.dart';
+import '../widgets/contact_us.dart';
+
+class ProductDetailScreen extends StatefulWidget {
   static const routeName = '/product-details';
 
+  @override
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
   // final String title;
-  //
-  // ProductDetailScreen(this.title);
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute
@@ -17,12 +27,28 @@ class ProductDetailScreen extends StatelessWidget {
         .arguments as String;
     final LoadProducts = Provider
         .of<Productss>(context).findById(productId);
-       
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
         title: Text(
             LoadProducts.title
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.close_rounded,
+              size: 25.0,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              setState(() {
+                Navigator.pop(context,
+                    MaterialPageRoute(builder: (context) => InputPage()));
+              });
+            },
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -46,6 +72,7 @@ class ProductDetailScreen extends StatelessWidget {
               width: double.infinity,
               child: Text(
                 LoadProducts.description,
+
                 textAlign: TextAlign.center,
                 softWrap: true,
 
@@ -53,6 +80,125 @@ class ProductDetailScreen extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          children: [UserAccountsDrawerHeader(
+            accountName: Text("Pest Scout App",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 23),),
+            accountEmail: Text(""),
+            currentAccountPicture: CircleAvatar(
+              child: ClipOval(
+                child: Image.asset(
+                  'images/Logo.png',
+                  //colorBlendMode: BlendMode.color,
+                  //'https://oflutter.com/wp-content/uploads/2021/02/girl-profile.png',
+                  fit: BoxFit.cover,
+
+                  width: 90,
+                  height: 90,
+                ),
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage(
+                    //'images/go-green.jpg'),
+                    //'https://oflutter.com/wp-content/uploads/2021/02/profile-bg3.jpg',
+                      'https://images.unsplash.com/photo-1550147760-44c9966d6bc7?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max')
+              ),
+            ),
+          ),
+            //   ListTile(
+            //   leading: Icon(Icons.more_vert),
+            //   title: Text('Favorites'),
+            //   onTap: () => PopupMenuButton(
+            //     onSelected: (FilterOptions selectedValue) {
+            //       setState(() {
+            //         if (selectedValue == FilterOptions.Favourites) {
+            //           _showOnlyFavourites = true;
+            //         } else {
+            //           _showOnlyFavourites = false;
+            //         }
+            //       });
+            //     },
+            //     icon: Icon(Icons.more_vert),
+            //     itemBuilder: (_) => [
+            //       PopupMenuItem(
+            //         child: Text('Only Favourites'),
+            //         value: FilterOptions.Favourites,
+            //       ),
+            //       PopupMenuItem(child: Text('Show All'), value: FilterOptions.All),
+            //
+            //     ],
+            //   ),
+            // ),
+            ListTile(
+              leading: Icon(Icons.open_in_browser),
+              title: Text('Browser'),
+              onTap: ()  {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Browser()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.contact_mail),
+              title: Text('Contact Us'),
+              onTap: ()  {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MyCustomForm()));
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info_rounded),
+              title: Text('About Us'),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AboutUs()));
+              } ,
+              trailing: ClipOval(
+                child: Container(
+                  color: Colors.red,
+                  width: 20,
+                  height: 20,
+                  child: Center(
+                    child: Text(
+                      '1',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.account_circle),
+              title: Text('SignUp'),
+              onTap: ()  {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => login()));
+              },
+            ),
+            // ListTile(
+            //   leading: Icon(Icons.login),
+            //   title: Text('Login'),
+            //   onTap: () => null,
+            // ),
+            Divider(),
+            ListTile(
+              title: Text('LogOut'),
+              leading: Icon(Icons.exit_to_app),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => email()));
+              },
+
+            ),],
         ),
       ),
     );

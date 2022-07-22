@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:uiapp1/screens/product_overview_screen.dart';
 
 import 'email.dart';
@@ -42,10 +43,10 @@ class _signUpState extends State<signUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.android_outlined,
-                    size: 100,
-                  ),
+                  // Icon(
+                  //   Icons.android_outlined,
+                  //   size: 100,
+                  // ),
                   SizedBox(
                     height: 50,
                   ),
@@ -63,6 +64,83 @@ class _signUpState extends State<signUp> {
                   ),
                   SizedBox(
                     height: 30.0,
+                  ),
+                  SizedBox(
+                    height: 30.0,
+                  ),
+                  //firstname field
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          //controller: _firstNameController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'First Name',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  //last name field
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          //controller: _lastNameController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Last Name',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 23.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        border: Border.all(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          //controller: _ageController,
+                          keyboardType: TextInputType.number,
+                          //textAlign: TextAlign.center,
+                          inputFormatters: [LengthLimitingTextInputFormatter(3)],
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Age',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   //email text field
                   Padding(
@@ -155,7 +233,8 @@ class _signUpState extends State<signUp> {
                         ),
                         onPressed: () {
                           setState(() {
-                            Navigator.push(context,
+
+                              Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => ProductOverviewScreen()));
                           });
                         },
@@ -168,13 +247,13 @@ class _signUpState extends State<signUp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'I am a Member?',
+                        'I am a Member?  ',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      RaisedButton(
-                        onPressed: (){
+                    GestureDetector(
+                        onTap: (){
                           setState(() {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (context) => email()));

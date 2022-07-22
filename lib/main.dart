@@ -9,7 +9,8 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  NativeNotify.initialize(240, 'MemfiZrR5boyiw0LaAg7Jg',);
+  NativeNotify.initialize(896, 'WCImBSJxCI4fvVMHAQLUZy'
+  );
   runApp( MyApp());
 }
 //
@@ -37,10 +38,10 @@ class MyApp extends StatelessWidget {
             seconds: 3,
             navigateAfterSeconds: new ProductOverviewScreen(),
 
-            title: new Text('Welcome TO PEST SCOUT', style: TextStyle(
+            title: new Text('WELCOME TO PEST SCOUT', style: TextStyle(
               color: Colors.green,
               fontSize: 15.0,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w900,
             ),),
             image: new Image.asset('images/Logo.png'),
             backgroundColor: Colors.white70,

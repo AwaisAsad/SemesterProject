@@ -17,6 +17,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     // TODO: implement dispose
     super.dispose();
   }
+  passwordResetFunction(){
+    return AlertDialog( title:Text("Info Alert"),content: Text("Password Reset Link Sent Check Your email"),);
+
+  }
   Future passwordReset() async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(
@@ -24,6 +28,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       showDialog(context:context,builder:(context){
 
         return AlertDialog( title:Text("Info Alert"),content: Text("Password Reset Link Sent Check Your email"),);
+
       });
     }
     on FirebaseAuthException catch (e) {
